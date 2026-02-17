@@ -1,6 +1,6 @@
 # Custom dictionary: string encoding over 32-bit medium
 
-Strings are encoded with a 6-bit character set (a-z, A-Z). Up to 6 characters fit in two 32-bit words (5 chars in word0, 1 in word1). Sender prints `Sending "Pltog"` to stderr; receiver decodes the binary from stdin, prints `binary translated to "Pltog"`, then runs the matching test function (same pattern as the 3-bit demo).
+Strings are encoded with a 7-bit character set covering ASCII 32-126 (space through tilde: all printable keyboard characters). Up to 8 characters fit in two 32-bit words (4 chars per word). Sender prints `Sending "Pltog"` to stderr; receiver decodes the binary from stdin, prints `binary translated to "Pltog"`, then runs the matching test function (same pattern as the 3-bit demo).
 
 ## Build and run
 

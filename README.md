@@ -28,7 +28,7 @@ make clean
 
 ## Version 2: custom_dictionary_demo (custom dictionary)
 
-Commands are sent as actual strings over the medium. Each string is encoded with a 6-bit-per-character alphabet (a-z, A-Z) and packed into two 32-bit words (up to 6 characters per command). Sender prints `Sending "Pltog"` (etc.); receiver decodes the binary, prints `binary translated to "Pltog"`, then runs the matching test function (same test_* pattern as the 3-bit demo).
+Commands are sent as actual strings over the medium. Each string is encoded with 7 bits per character (ASCII 32-126, all printable keyboard characters) and packed into two 32-bit words (up to 8 characters per command). Sender prints `Sending "Pltog"` (etc.); receiver decodes the binary, prints `binary translated to "Pltog"`, then runs the matching test function (same test_* pattern as the 3-bit demo).
 
 ### Compile and run
 
@@ -55,6 +55,6 @@ make clean
 | Folder                  | Encoding              | Per command on wire      |
 |-------------------------|-----------------------|---------------------------|
 | three_bit_demo          | 3-bit code (0-7)      | 1 byte                    |
-| custom_dictionary_demo  | 6-bit chars, 2 words  | 8 bytes (2 x 32-bit)     |
+| custom_dictionary_demo  | 7-bit chars (ASCII 32-126), 2 words | 8 bytes (2 x 32-bit)     |
 
 Both use a pipe between sender and receiver; replace the pipe with your real 32-bit medium when deploying.
