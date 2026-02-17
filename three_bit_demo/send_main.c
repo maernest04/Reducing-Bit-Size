@@ -11,9 +11,10 @@ int main(void) {
     };
     const int n = sizeof(commands) / sizeof(commands[0]);
 
-    // Send each command to the medium
     for (int i = 0; i < n; i++) {
-        uint8_t code = sender_send(commands[i]);
+        const char *cmd = commands[i];
+        uint8_t code = sender_send(cmd);
+        fprintf(stderr, "Sending \"%s\"\n", cmd);
         if (write(STDOUT_FILENO, &code, 1) != 1)
             return 1;
     }

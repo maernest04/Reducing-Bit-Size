@@ -1,44 +1,60 @@
-# 3-bit command demo
+# Reducing Memory Problem
 
-Send test commands from one program to another over a pipe. Commands are encoded as 3-bit values (0-7) instead of strings so only one byte is sent per command.
+Two ways to send test commands over a 32-bit-limited medium: 3-bit command codes (fixed set) or custom dictionary string encoding (arbitrary a-z, A-Z strings in 32-bit words).
 
-## How it works
+## Version 1: three_bit_demo
 
-- **Sender** (send_main.c + sender.c): Has the list of 8 command names (Pltog, Plstat, Plmode, Pltarg, Plkwlm, Plinit, Pltqcm, Plclmp). For each command it encodes the name to a number 0-7 and writes that single byte to stdout.
-- **Receiver** (recv_main.c + receiver.c): Reads bytes from stdin. For each byte it uses a switch on the value (0-7) and runs the matching test function. No string comparison on the receiver side.
-- **Medium**: A pipe connects the two. When you run `sender | receiver`, the sender's stdout is the receiver's stdin. The bytes go through the OS pipe.
+Commands are one of 8 fixed strings. Each command is encoded as a 3-bit value (0-7) and sent as one byte. Receiver uses a switch on the value and runs the matching test. No string is sent; only the code.
 
-The receiver never sees the original strings. It only sees the 3-bit codes and runs the right test by number.
-
-## How to run
-
-Build everything:
+### Compile and run
 
 ```
+cd three_bit_demo
 make
-```
-
-Run sender and receiver connected by a pipe (two options):
-
-```
 ./sender | ./receiver
 ```
 
-Or run the demo program, which does the same thing (fork, pipe, exec sender and receiver):
+Or run both in one process:
 
 ```
 ./demo
 ```
 
-Clean build artifacts and executables:
+Clean:
 
 ```
 make clean
 ```
 
-## Files
+## Version 2: custom_dictionary_demo (custom dictionary)
 
-- send_main.c, sender.c, sender.h — sender program (encode command to 0-7, write byte to stdout)
-- recv_main.c, receiver.c, receiver.h — receiver program (read byte from stdin, switch on value, run test)
-- demo.c — runs sender and receiver with a pipe between them
-# Reducing-Bit-Size
+Commands are sent as actual strings over the medium. Each string is encoded with a 6-bit-per-character alphabet (a-z, A-Z) and packed into two 32-bit words (up to 6 characters per command). Sender prints `Sending "Pltog"` (etc.); receiver decodes the binary, prints `binary translated to "Pltog"`, then runs the matching test function (same test_* pattern as the 3-bit demo).
+
+### Compile and run
+
+```
+cd custom_dictionary_demo
+make
+./sender | ./receiver
+```
+
+Or:
+
+```
+./demo
+```
+
+Clean:
+
+```
+make clean
+```
+
+## Summary
+
+| Folder                  | Encoding              | Per command on wire      |
+|-------------------------|-----------------------|---------------------------|
+| three_bit_demo          | 3-bit code (0-7)      | 1 byte                    |
+| custom_dictionary_demo  | 6-bit chars, 2 words  | 8 bytes (2 x 32-bit)     |
+
+Both use a pipe between sender and receiver; replace the pipe with your real 32-bit medium when deploying.
