@@ -1,0 +1,9 @@
+Sending "Pltog"  fixed (7-bit): 35 bits  Huffman: 21 bits
+Sending "Plstat"  fixed (7-bit): 42 bits  Huffman: 24 bits
+Sending "Plmode"  fixed (7-bit): 42 bits  Huffman: 29 bits
+Sending "Pltarg"  fixed (7-bit): 42 bits  Huffman: 27 bits
+Sending "Plkwlm"  fixed (7-bit): 42 bits  Huffman: 26 bits
+Sending "Plinit"  fixed (7-bit): 42 bits  Huffman: 27 bits
+Sending "Pltqcm"  fixed (7-bit): 42 bits  Huffman: 26 bits
+Sending "Plclmp"  fixed (7-bit): 42 bits  Huffman: 25 bits
+append_encoded_bits failed at command 0 (bit_pos=272 stream_bytes=34)
